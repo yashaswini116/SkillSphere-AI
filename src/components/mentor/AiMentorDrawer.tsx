@@ -109,26 +109,29 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({ isOpen, onClose 
     setLoading(true);
 
     try {
-      const history = messages.map((m) => ({
-        role: m.role,
-        parts: [{ text: m.content }],
-      }));
+      // Build conversation history (existing messages + new user message)
+      const history: { role: "user" | "model" | "assistant"; content: string }[] = [
+        ...messages.map((m) => ({
+          role: m.role as "user" | "assistant",
+          content: m.content,
+        })),
+        { role: "user" as const, content: query },
+      ];
 
+      // queryMentorChat signature: (history, userContext, customKey?)
       const res = await queryMentorChat(
-        query,
-        {
-          role: user?.targetRole || "Full Stack AI Developer",
-          currentSkills: user?.currentSkills || [],
-          level: user?.level || 1,
-          streakDays: user?.streakDays || 1,
-        },
         history,
+        {
+          targetRole: user?.targetRole || "Full Stack AI Developer",
+          currentSkills: user?.currentSkills || [],
+          xp: user?.xp ?? 0,
+        },
         user?.geminiApiKey
       );
 
       const aiMsg = {
         role: "assistant" as const,
-        content: res.text,
+        content: res.data,
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         isDemo: res.isDemo,
       };
