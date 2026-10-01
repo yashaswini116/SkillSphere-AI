@@ -1,0 +1,249 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 1. Modern Green + Cream Theme System */
+:root,
+.theme-emerald {
+  --background: #FBF9F4; /* Warm Cream / Off-White */
+  --foreground: #13291E; /* Dark Green / Charcoal */
+  --card-bg: #FFFFFF;    /* Light Cream / White */
+  --card-border: rgba(45, 106, 79, 0.14);
+  --accent-glow: rgba(45, 106, 79, 0.16);
+  --brand-primary: #1B4332; /* Deep Forest Green */
+  --brand-primary-hover: #2D6A4F;
+  --brand-secondary: #52B788; /* Soft Green */
+  --brand-secondary-light: #D8F3DC;
+  --brand-gradient: linear-gradient(135deg, #1B4332 0%, #2D6A4F 55%, #40916C 100%);
+  --brand-gradient-soft: linear-gradient(135deg, #2D6A4F 0%, #52B788 100%);
+  --brand-glow: rgba(27, 67, 50, 0.25);
+  --accent-grid: rgba(27, 67, 50, 0.05);
+  --brand-soft: #D8F3DC;
+  --brand-border: rgba(45, 106, 79, 0.22);
+  --brand-badge-text: #1B4332;
+  --card-shadow: 0 4px 20px -2px rgba(27, 67, 50, 0.06), 0 2px 6px -1px rgba(27, 67, 50, 0.04);
+}
+
+.dark.theme-emerald,
+.dark:not([class*="theme-"]) {
+  --background: #091610; /* Deep Forest Noir */
+  --foreground: #EEF8F2;
+  --card-bg: rgba(15, 34, 25, 0.88);
+  --card-border: rgba(82, 183, 136, 0.18);
+  --accent-glow: rgba(82, 183, 136, 0.24);
+  --brand-primary: #52B788;
+  --brand-primary-hover: #74C69D;
+  --brand-secondary: #74C69D;
+  --brand-secondary-light: rgba(82, 183, 136, 0.15);
+  --brand-gradient: linear-gradient(135deg, #1B4332 0%, #2D6A4F 50%, #52B788 100%);
+  --brand-gradient-soft: linear-gradient(135deg, #2D6A4F 0%, #52B788 100%);
+  --brand-glow: rgba(82, 183, 136, 0.32);
+  --accent-grid: rgba(82, 183, 136, 0.08);
+  --brand-soft: rgba(82, 183, 136, 0.18);
+  --brand-border: rgba(82, 183, 136, 0.28);
+  --brand-badge-text: #74C69D;
+  --card-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.4);
+}
+
+/* Optional Alternate Themes (Retained for user preference) */
+.theme-rose {
+  --background: #faf6f7;
+  --foreground: #1c0a10;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-border: rgba(244, 63, 94, 0.18);
+  --accent-glow: rgba(244, 63, 94, 0.25);
+  --brand-primary: #e11d48;
+  --brand-primary-hover: #be123c;
+  --brand-gradient: linear-gradient(135deg, #f43f5e 0%, #fb7185 50%, #e11d48 100%);
+  --brand-glow: rgba(244, 63, 94, 0.3);
+  --accent-grid: rgba(244, 63, 94, 0.08);
+  --brand-soft: rgba(244, 63, 94, 0.1);
+  --brand-border: rgba(244, 63, 94, 0.25);
+  --brand-badge-text: #be123c;
+}
+
+.theme-sapphire {
+  --background: #f6f8fc;
+  --foreground: #08111e;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-border: rgba(59, 130, 246, 0.18);
+  --accent-glow: rgba(59, 130, 246, 0.25);
+  --brand-primary: #2563eb;
+  --brand-primary-hover: #1d4ed8;
+  --brand-gradient: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #2563eb 100%);
+  --brand-glow: rgba(59, 130, 246, 0.3);
+  --accent-grid: rgba(59, 130, 246, 0.08);
+  --brand-soft: rgba(59, 130, 246, 0.1);
+  --brand-border: rgba(59, 130, 246, 0.25);
+  --brand-badge-text: #1d4ed8;
+}
+
+.theme-amber {
+  --background: #fcf9f5;
+  --foreground: #1c1407;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-border: rgba(245, 158, 11, 0.18);
+  --accent-glow: rgba(245, 158, 11, 0.25);
+  --brand-primary: #d97706;
+  --brand-primary-hover: #b45309;
+  --brand-gradient: linear-gradient(135deg, #f59e0b 0%, #ea580c 50%, #d97706 100%);
+  --brand-glow: rgba(245, 158, 11, 0.3);
+  --accent-grid: rgba(245, 158, 11, 0.08);
+  --brand-soft: rgba(245, 158, 11, 0.1);
+  --brand-border: rgba(245, 158, 11, 0.25);
+  --brand-badge-text: #b45309;
+}
+
+.theme-violet {
+  --background: #f8f6fc;
+  --foreground: #12091c;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-border: rgba(139, 92, 246, 0.18);
+  --accent-glow: rgba(139, 92, 246, 0.25);
+  --brand-primary: #7c3aed;
+  --brand-primary-hover: #6d28d9;
+  --brand-gradient: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 50%, #7c3aed 100%);
+  --brand-glow: rgba(139, 92, 246, 0.3);
+  --accent-grid: rgba(139, 92, 246, 0.08);
+  --brand-soft: rgba(139, 92, 246, 0.1);
+  --brand-border: rgba(139, 92, 246, 0.25);
+  --brand-badge-text: #6d28d9;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+}
+
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: var(--brand-border);
+  box-shadow: 0 10px 30px -10px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+/* Dynamic Brand Utility Classes */
+.text-brand {
+  color: var(--brand-primary);
+}
+
+.text-gradient-brand {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-brand-gradient {
+  background: var(--brand-gradient);
+}
+
+.bg-brand-soft {
+  background-color: var(--brand-soft);
+}
+
+.border-brand {
+  border-color: var(--brand-border);
+}
+
+.badge-brand {
+  background-color: var(--brand-soft);
+  color: var(--brand-badge-text);
+  border: 1px solid var(--brand-border);
+}
+
+.btn-brand {
+  background: var(--brand-gradient);
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+.btn-brand:hover {
+  opacity: 0.95;
+  box-shadow: 0 8px 24px -4px var(--brand-glow);
+  transform: scale(1.02);
+}
+
+.btn-brand-forest {
+  background-color: #1B4332;
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+.btn-brand-forest:hover {
+  background-color: #2D6A4F;
+  box-shadow: 0 8px 20px -4px rgba(27, 67, 50, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-brand-soft {
+  background-color: #D8F3DC;
+  color: #1B4332;
+  border: 1px solid rgba(82, 183, 136, 0.3);
+  transition: all 0.2s ease;
+}
+.btn-brand-soft:hover {
+  background-color: #B7E4C7;
+  color: #143326;
+}
+
+/* Glowing Accent Border */
+.gradient-border {
+  position: relative;
+  background-clip: padding-box;
+  border: 1px solid transparent;
+}
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  top: -1px; bottom: -1px; left: -1px; right: -1px;
+  background: var(--brand-gradient);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.7;
+}
+
+/* Ambient cyber / forest glow */
+.cyber-glow {
+  box-shadow: 0 0 25px -5px var(--accent-glow);
+}
+
+/* Subtle background grid pattern with warm cream / forest tint */
+.bg-grid-pattern {
+  background-image: radial-gradient(var(--accent-grid) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(82, 183, 136, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-primary);
+}

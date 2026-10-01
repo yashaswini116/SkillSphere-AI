@@ -1,0 +1,47 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        (request.auth.token.role == 'admin' || 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin');
+    }
+
+    // User profiles
+    match /users/{userId} {
+      // Anyone can read public profile data (portfolio showcase)
+      allow read: if true;
+      // Only the user or an admin can create or update their profile
+      allow create, update: if isOwner(userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // AI Skill Gaps, Roadmaps, and Assessments
+    match /assessments/{assessmentId} {
+      allow read, write: if isAuthenticated() && 
+        (resource == null || resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    // Public Curated Content (Career Tracks, Tech Radar, Sample Problems)
+    match /curriculum/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Leaderboard and Public Achievements
+    match /leaderboard/{entryId} {
+      allow read: if true;
+      allow write: if isAuthenticated() || isAdmin();
+    }
+  }
+}
