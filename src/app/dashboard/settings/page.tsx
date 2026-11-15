@@ -28,6 +28,8 @@ export default function SettingsPage() {
   const [targetRole, setTargetRole] = useState(user?.targetRole || "Full Stack AI Developer");
   const [geminiKey, setGeminiKey] = useState("");
   const [isSavedKey, setIsSavedKey] = useState(false);
+  const [groqKey, setGroqKey] = useState("");
+  const [isSavedGroqKey, setIsSavedGroqKey] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
 
   useEffect(() => {
@@ -36,6 +38,11 @@ export default function SettingsPage() {
       if (stored) {
         setGeminiKey(stored);
         setIsSavedKey(true);
+      }
+      const storedGroq = localStorage.getItem("skillsphere_groq_key");
+      if (storedGroq) {
+        setGroqKey(storedGroq);
+        setIsSavedGroqKey(true);
       }
       setSoundEnabled(localStorage.getItem("skillsphere_sound_enabled") !== "false");
     }
@@ -46,6 +53,22 @@ export default function SettingsPage() {
     updateProfile({ name, targetRole });
     playAudioFeedback("success");
     alert("Profile preferences successfully updated!");
+  };
+
+  const handleSaveGroqKey = () => {
+    if (typeof window !== "undefined") {
+      if (groqKey.trim()) {
+        localStorage.setItem("skillsphere_groq_key", groqKey.trim());
+        setIsSavedGroqKey(true);
+        playAudioFeedback("success");
+        alert("Groq API Key saved! Ultra-fast Groq chatbot (openai/gpt-oss-120b) is activated.");
+      } else {
+        localStorage.removeItem("skillsphere_groq_key");
+        setIsSavedGroqKey(false);
+        playAudioFeedback("click");
+        alert("Groq API Key cleared.");
+      }
+    }
   };
 
   const handleSaveApiKey = () => {
@@ -155,7 +178,54 @@ export default function SettingsPage() {
         </div>
       </div>
 
-      {/* 2. Gemini BYOK API Key Section */}
+      {/* 2. Groq AI API Key Section */}
+      <div className="glass-card p-6 sm:p-8 rounded-3xl border border-orange-500/30 space-y-4">
+        <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-orange-500" />
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">
+              Groq API Key (AI Chatbot)
+            </h3>
+          </div>
+
+          {isSavedGroqKey ? (
+            <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-orange-500/10 text-orange-500 border border-orange-500/20 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-orange-500 animate-ping" />
+              <span>Groq openai/gpt-oss-120b Active</span>
+            </span>
+          ) : (
+            <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-500/10 text-slate-500 border border-slate-500/20 flex items-center gap-1.5">
+              <span>Not Configured</span>
+            </span>
+          )}
+        </div>
+
+        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+          Provide your personal Groq API key (<code className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-orange-500 font-mono">gsk_...</code>) for ultra-fast, live AI Mentor conversations powered by <strong>openai/gpt-oss-120b</strong> on Groq. You can also configure this in <code className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-mono">.env.local</code> as <code className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 font-mono">GROQ_API_KEY</code>.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center gap-3 pt-1">
+          <div className="relative flex-1 w-full">
+            <input
+              type="password"
+              value={groqKey}
+              onChange={(e) => setGroqKey(e.target.value)}
+              placeholder="gsk_..."
+              className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-xs font-mono border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+            />
+          </div>
+
+          <button
+            onClick={handleSaveGroqKey}
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold shadow-md transition-all flex items-center justify-center gap-1.5"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>{groqKey ? "Save Groq Key" : "Clear Groq Key"}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 3. Gemini BYOK API Key Section */}
       <div className="glass-card p-6 sm:p-8 rounded-3xl border border-brand space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/10">
           <div className="flex items-center gap-2">

@@ -542,56 +542,105 @@ User Query: "${question}"`;
   };
 }
 
+// ─── Gemini multi-turn chat helper ────────────────────────────────────────────
+// Unlike callGeminiRest (single prompt), this sends the full conversation
+// as a proper alternating user/model contents array with system_instruction.
+async function callGeminiChat(
+  contents: { role: "user" | "model"; parts: { text: string }[] }[],
+  systemInstruction: string,
+  apiKey: string
+): Promise<string | null> {
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: systemInstruction }] },
+        contents,
+        generationConfig: {
+          temperature: 0.75,
+          maxOutputTokens: 2048,
+          topP: 0.95,
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      const errBody = await response.json().catch(() => ({}));
+      console.warn(
+        `[gemini] callGeminiChat error ${response.status}:`,
+        errBody?.error?.message || response.statusText
+      );
+      return null;
+    }
+
+    const data = await response.json();
+    return data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || null;
+  } catch (err) {
+    console.warn("[gemini] callGeminiChat network error:", err);
+    return null;
+  }
+}
+
 // 7. 24/7 AI Mentor Chat Assistant
 export async function queryMentorChat(
   history: { role: "user" | "model" | "assistant"; content: string }[],
   userContext: { targetRole: string; currentSkills: string[]; xp: number },
   customKey?: string
 ): Promise<AIResponse<string>> {
-  const systemInstruction = `You are SkillSphere AI Mentor, an empathetic, hyper-knowledgeable principal engineer and career strategist. The user is targeting the role: "${userContext.targetRole}". Their current skills include: ${userContext.currentSkills.join(", ")}. Their current XP is ${userContext.xp}. Give crisp, empowering, technically rigorous advice with actionable next steps. Use markdown formatting with bullet points and code snippets where appropriate.`;
+  const key = customKey || getGeminiApiKey();
 
-  const conversation = history.map(h => `${h.role.toUpperCase()}: ${h.content}`).join("\n\n");
-  const rawText = await callGeminiRest(conversation, customKey, systemInstruction);
+  const systemInstruction = `You are SkillSphere AI Mentor — a world-class, empathetic senior engineer and career strategist.
 
-  if (rawText && rawText.trim().length > 0) {
+USER CONTEXT:
+- Target role: "${userContext.targetRole}"
+- Current skills: ${userContext.currentSkills.length > 0 ? userContext.currentSkills.join(", ") : "not specified yet"}
+- XP earned: ${userContext.xp}
+
+BEHAVIOUR RULES:
+1. Answer ANY question the user asks — general knowledge, programming, debugging, algorithms, AI/ML, web development, math, career advice, or everyday topics.
+2. Use Markdown: **bold**, \`inline code\`, fenced code blocks with language names, numbered lists, bullet lists.
+3. Tailor depth to the question — concise for simple queries, detailed for technical ones.
+4. Use prior conversation history for follow-up questions like "Explain that again" or "Give an example".
+5. Do NOT start every response with an introduction or end with generic motivational text.
+6. Do not invent facts. Say "I'm not sure" when uncertain.`.trim();
+
+  if (key) {
+    // Normalize roles: "assistant" → "model" for Gemini API
+    const MAX_CONTEXT = 20;
+    const trimmed = history.slice(-MAX_CONTEXT);
+    // Ensure history starts with a user message
+    const firstUser = trimmed.findIndex((m) => m.role === "user");
+    const normalised = (firstUser > 0 ? trimmed.slice(firstUser) : trimmed).map(
+      (m) => ({
+        role: (m.role === "assistant" ? "model" : m.role) as "user" | "model",
+        parts: [{ text: m.content }],
+      })
+    );
+
+    const rawText = await callGeminiChat(normalised, systemInstruction, key);
+
+    if (rawText && rawText.trim().length > 0) {
+      return {
+        data: rawText.trim(),
+        isDemo: false,
+        modelUsed: "Gemini 1.5 Flash (Live API)",
+      };
+    }
+
+    // API call failed — return a transparent error message
     return {
-      data: rawText.trim(),
-      isDemo: false,
-      modelUsed: "Gemini 1.5 Flash (Live API)",
+      data: "⚠️ The Gemini API returned an empty or invalid response. This can happen if your API key is invalid, has expired, or has no remaining quota. Please check your key in Settings or your `.env.local` file.",
+      isDemo: true,
+      modelUsed: "Error",
     };
   }
 
-  // Realistic dynamic mentor response
-  const lastUserMsg = history[history.length - 1]?.content.toLowerCase() || "";
-  let mentorReply = `Great question! As someone targeting **${userContext.targetRole}**, the key is balancing theoretical fundamentals with demonstrable production artifacts.
-
-Here is my recommended immediate plan for you today:
-1. **Focus Area**: Spend 45 minutes on the *Vector Databases & RAG Architecture* node in your roadmap.
-2. **Coding Habit**: Solve today's *Valid Parentheses* problem in the sandbox to keep your algorithmic problem-solving sharp.
-3. **Portfolio Polish**: Add quantifiable metrics to your resume projects using the ATS Analyzer.
-
-Would you like me to generate a tailored mock interview question or review your code solution next?`;
-
-  if (lastUserMsg.includes("interview") || lastUserMsg.includes("prep")) {
-    mentorReply = `Preparing for a **${userContext.targetRole}** interview requires mastering both the STAR methodology and system architecture fundamentals.
-
-Here's how to structure your answers:
-* **Situation**: Briefly set up the engineering constraint or project challenge.
-* **Task**: Define your explicit responsibility and the goal (e.g. reducing p99 latency by 30%).
-* **Action**: Explain the exact technical decisions *you* made (e.g., using Redis cache, chunking strategies).
-* **Result**: Close with concrete numbers and what you learned.
-
-Head over to our **AI Mock Interview** tab to run a live voice or text session with instant scoring!`;
-  } else if (lastUserMsg.includes("resume") || lastUserMsg.includes("ats")) {
-    mentorReply = `For tech resumes in 2026, recruiters filter via automated ATS algorithms before any human sees your file.
-- **Top tip**: Never use multi-column tables or embedded images.
-- **Keywords**: Ensure high-demand terms like **TypeScript, Next.js, CI/CD, Docker, and Vector DBs** are explicitly listed in your skills section.
-- **Check our Resume Analyzer** tab to get an immediate ATS score and AI-enhanced bullet points!`;
-  }
-
+  // No API key configured — surface a clear, actionable error
   return {
-    data: mentorReply,
+    data: "🔑 **No Gemini API key is configured.**\n\nTo enable live AI responses:\n1. Get a free key at [Google AI Studio](https://aistudio.google.com/app/apikey).\n2. Add it to your `.env.local` file as `GEMINI_API_KEY=AIza...`\n3. Restart the dev server.\n\nAlternatively, paste your key in the **Settings** page under *Gemini API Key*.",
     isDemo: true,
-    modelUsed: "SkillSphere Realistic Demo Engine",
+    modelUsed: "No Key Configured",
   };
 }
