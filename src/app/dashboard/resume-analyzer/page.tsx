@@ -89,16 +89,17 @@ Frameworks & Tools: React, Next.js, Node.js, Express, Tailwind CSS, Git, Docker,
       <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/10 text-indigo-600 dark:text-cyan-400 border border-indigo-500/20">
-              Module: Career Acquisition & ATS
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#D8F3DC] text-[#1B4332] dark:bg-emerald-950 dark:text-emerald-400 border border-[#B7E4C7] dark:border-white/10 flex items-center gap-1.5">
+              <Sparkles className="w-3 h-3 text-[#2D6A4F] dark:text-[#52B788]" />
+              Career Acquisition & ATS 90+ Studio
             </span>
             <AiBadge isDemo={!isLiveAIConfigured()} />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
-            AI Resume ATS 90+ Optimizer
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#13291E] dark:text-white mt-1">
+            AI Resume &amp; Job Description Matcher
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-            Audit your resume against Fortune 500 ATS filters and transform passive bullets into high-impact Google XYZ statements.
+          <p className="text-xs sm:text-sm text-[#526E60] dark:text-[#94A3B8]">
+            Compare your resume against real target job descriptions, extract missing keywords, and rewrite bullets into Google XYZ impact statements.
           </p>
         </div>
 
@@ -160,10 +161,10 @@ Frameworks & Tools: React, Next.js, Node.js, Express, Tailwind CSS, Git, Docker,
           <button
             onClick={handleAnalyze}
             disabled={loading || !resumeText.trim()}
-            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 disabled:opacity-40 text-white font-semibold text-xs shadow-xl shadow-indigo-600/25 transition-all flex items-center justify-center gap-2"
+            className="w-full py-3.5 rounded-2xl bg-[#1B4332] hover:bg-[#2D6A4F] disabled:opacity-40 text-white font-semibold text-xs shadow-xl shadow-[#1B4332]/25 transition-all flex items-center justify-center gap-2"
           >
             {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-            <span>{loading ? "Parsing ATS Structure..." : "Run AI Resume Audit (+40 XP)"}</span>
+            <span>{loading ? "Matching Resume vs Job Description..." : "Match Resume & Scan ATS (+40 XP)"}</span>
           </button>
         </div>
       </div>

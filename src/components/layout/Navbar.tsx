@@ -47,12 +47,14 @@ export const Navbar: React.FC = () => {
 
   const authenticatedNavLinks = [
     { label: "Dashboard", href: "/dashboard" },
-    { label: "Skill Gap", href: "/dashboard/skill-gap" },
+    { label: "AI Mentor", href: "/dashboard/mentor" },
+    { label: "Resource Finder", href: "/dashboard/resources" },
+    { label: "Opportunities", href: "/dashboard/opportunities" },
     { label: "Roadmaps", href: "/dashboard/roadmaps" },
+    { label: "Skill Gap", href: "/dashboard/skill-gap" },
     { label: "Resume ATS", href: "/dashboard/resume-analyzer" },
-    { label: "Tech Radar", href: "/dashboard/career-explorer" },
-    { label: "Mock Interview", href: "/dashboard/mock-interview" },
-    { label: "Coding Practice", href: "/dashboard/coding" },
+    { label: "GitHub Audit", href: "/dashboard/github-analyzer" },
+    { label: "Interview Studio", href: "/dashboard/mock-interview" },
   ];
 
   const publicNavLinks = [

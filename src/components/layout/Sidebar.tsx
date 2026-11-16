@@ -24,6 +24,9 @@ import {
   Sparkles,
   LogOut,
   ChevronRight,
+  Search,
+  Briefcase,
+  Globe,
 } from "lucide-react";
 import { playAudioFeedback } from "@/lib/utils";
 
@@ -44,17 +47,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenMentor }) => {
 
   const primaryNav = [
     { label: "Command Center", href: "/dashboard", icon: LayoutDashboard },
-    { label: "Skill-Gap Analyzer", href: "/dashboard/skill-gap", icon: Target, badge: "AI" },
-    { label: "Career Explorer", href: "/dashboard/career-explorer", icon: Compass },
+    { label: "AI Mentor Lounge", href: "/dashboard/mentor", icon: Bot, badge: "Memory" },
+    { label: "AI Resource Finder", href: "/dashboard/resources", icon: BookOpen, badge: "Verified" },
+    { label: "Opportunity Radar", href: "/dashboard/opportunities", icon: Compass, badge: "Live" },
     { label: "AI Roadmaps", href: "/dashboard/roadmaps", icon: MapPin },
-    { label: "Resume ATS Scanner", href: "/dashboard/resume-analyzer", icon: FileText, badge: "ATS 90+" },
-    { label: "RAG Study Assistant", href: "/dashboard/study-assistant", icon: BookOpen, badge: "PDF" },
-    { label: "AI Quiz & MCQs", href: "/dashboard/quiz", icon: Award },
-    { label: "Coding Sandbox", href: "/dashboard/coding", icon: Code2 },
+    { label: "Skill-Gap Analyzer", href: "/dashboard/skill-gap", icon: Target, badge: "AI" },
+    { label: "Resume & JD Matcher", href: "/dashboard/resume-analyzer", icon: FileText, badge: "ATS 90+" },
+    { label: "GitHub Code Analyzer", href: "/dashboard/github-analyzer", icon: FolderGit2, badge: "Audit" },
     { label: "AI Mock Interview", href: "/dashboard/mock-interview", icon: Mic, badge: "STAR" },
-    { label: "Project & Portfolio", href: "/dashboard/portfolio", icon: FolderGit2 },
+    { label: "Coding Sandbox", href: "/dashboard/coding", icon: Code2 },
+    { label: "AI Quiz & MCQs", href: "/dashboard/quiz", icon: Award },
+    { label: "RAG Study Assistant", href: "/dashboard/study-assistant", icon: Search, badge: "PDF" },
+    { label: "Career Explorer", href: "/dashboard/career-explorer", icon: Globe },
+    { label: "Project & Portfolio", href: "/dashboard/portfolio", icon: Briefcase },
     { label: "XP & Leaderboard", href: "/dashboard/gamification", icon: Trophy },
-    { label: "AI Mentor Lounge", href: "/dashboard/mentor", icon: Bot, badge: "24/7" },
   ];
 
   const adminNav = [

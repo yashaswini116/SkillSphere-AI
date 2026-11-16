@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { analyzeSkillGapAI, isLiveAIConfigured } from "@/lib/gemini";
 import { SkillGapAnalysis } from "@/lib/types";
@@ -286,16 +287,15 @@ export default function SkillGapPage() {
                       <span className="text-slate-500 truncate max-w-[200px]">
                         📚 {gap.recommendedResource}
                       </span>
-                      <button
-                        onClick={() => {
-                          addXp(15);
-                          alert(`Added "${gap.skill}" to your target practice queue! (+15 XP)`);
-                        }}
-                        className="text-xs font-semibold text-indigo-600 dark:text-cyan-400 hover:underline flex items-center gap-1"
-                      >
-                        <span>Add to Queue</span>
-                        <ArrowRight className="w-3 h-3" />
-                      </button>
+                      <div className="flex items-center gap-2">
+                        <Link
+                          href="/dashboard/resources"
+                          className="text-xs font-semibold text-[#2D6A4F] dark:text-[#52B788] hover:underline flex items-center gap-0.5"
+                        >
+                          <span>Find Resources</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 );

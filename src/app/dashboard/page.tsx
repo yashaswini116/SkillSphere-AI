@@ -263,12 +263,12 @@ export default function DashboardOverviewPage() {
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {[
-            { label: "Resume ATS", href: "/dashboard/resume-analyzer", icon: FileText, color: "text-[#1B4332] dark:text-[#52B788]" },
-            { label: "RAG Study", href: "/dashboard/study-assistant", icon: BookOpen, color: "text-[#2D6A4F] dark:text-[#74C69D]" },
+            { label: "Resource Finder", href: "/dashboard/resources", icon: BookOpen, color: "text-[#1B4332] dark:text-[#52B788]" },
+            { label: "Opportunity Radar", href: "/dashboard/opportunities", icon: Compass, color: "text-[#2D6A4F] dark:text-[#74C69D]" },
+            { label: "GitHub Audit", href: "/dashboard/github-analyzer", icon: Code2, color: "text-[#52B788]" },
+            { label: "Resume & JD Match", href: "/dashboard/resume-analyzer", icon: FileText, color: "text-[#1B4332] dark:text-[#52B788]" },
             { label: "Mock Interview", href: "/dashboard/mock-interview", icon: Mic, color: "text-rose-600" },
-            { label: "Coding Sandbox", href: "/dashboard/coding", icon: Code2, color: "text-amber-600" },
-            { label: "AI Projects", href: "/dashboard/portfolio", icon: Sparkles, color: "text-[#52B788]" },
-            { label: "Tech Radar", href: "/dashboard/career-explorer", icon: Compass, color: "text-[#1B4332] dark:text-[#74C69D]" },
+            { label: "AI Mentor Lounge", href: "/dashboard/mentor", icon: Sparkles, color: "text-amber-600" },
           ].map((action) => {
             const Icon = action.icon;
             return (
