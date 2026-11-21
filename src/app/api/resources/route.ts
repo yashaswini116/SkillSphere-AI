@@ -3,9 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 export interface VerifiedResource {
   id: string;
   title: string;
-  category: "docs" | "course" | "github" | "tools" | "interview";
+  category: "docs" | "course" | "github" | "tools" | "interview" | "youtube";
   sourceName: string;
   url: string;
+  youtubeVideoId?: string;
   difficulty: "Beginner" | "Intermediate" | "Advanced";
   estimatedHours: string;
   description: string;
@@ -17,6 +18,120 @@ export interface VerifiedResource {
 // ─── Curated, Authentic Verified Developer Resources ─────────────────────────
 // Every URL here is a real, permanently valid destination (never hallucinated).
 const VERIFIED_KNOWLEDGE_BASE: VerifiedResource[] = [
+  // ── YouTube Video Tutorials & Masterclasses ──
+  {
+    id: "res-yt-nextjs",
+    title: "Next.js 15 Full Course: Modern App Router, Server Actions & Auth",
+    category: "youtube",
+    sourceName: "YouTube (freeCodeCamp.org)",
+    url: "https://www.youtube.com/watch?v=wm5gMKuwSYk",
+    youtubeVideoId: "wm5gMKuwSYk",
+    difficulty: "Intermediate",
+    estimatedHours: "6.5 hrs video",
+    description: "Complete full-stack tutorial building production applications with Next.js 15, React 19, Tailwind CSS, PostgreSQL, and Server Actions.",
+    keyTopics: ["Next.js", "React", "TypeScript", "Full Stack", "YouTube"],
+    isVerified: true,
+    upvotes: 9410,
+  },
+  {
+    id: "res-yt-pytorch",
+    title: "PyTorch for Deep Learning Bootcamp (Zero to Mastery)",
+    category: "youtube",
+    sourceName: "YouTube (Daniel Bourke / freeCodeCamp)",
+    url: "https://www.youtube.com/watch?v=V_xro1bcAuA",
+    youtubeVideoId: "V_xro1bcAuA",
+    difficulty: "Beginner",
+    estimatedHours: "26 hrs video",
+    description: "The most comprehensive hands-on deep learning video course covering tensor fundamentals, neural architectures, computer vision, and transformers.",
+    keyTopics: ["PyTorch", "Deep Learning", "Neural Networks", "AI", "YouTube"],
+    isVerified: true,
+    upvotes: 11200,
+  },
+  {
+    id: "res-yt-docker",
+    title: "Docker & Containerization Tutorial for Beginners",
+    category: "youtube",
+    sourceName: "YouTube (TechWorld with Nana)",
+    url: "https://www.youtube.com/watch?v=3c-iBn73dDE",
+    youtubeVideoId: "3c-iBn73dDE",
+    difficulty: "Beginner",
+    estimatedHours: "3 hrs video",
+    description: "Clear, visual walkthrough explaining Docker images, containers, Dockerfile instructions, ports, volumes, and Docker Compose networks.",
+    keyTopics: ["Docker", "DevOps", "Containers", "CI/CD", "YouTube"],
+    isVerified: true,
+    upvotes: 8750,
+  },
+  {
+    id: "res-yt-sysdesign",
+    title: "System Design Masterclass: High-Scale Architecture Fundamentals",
+    category: "youtube",
+    sourceName: "YouTube (ByteByteGo)",
+    url: "https://www.youtube.com/watch?v=bUHFg8CZFCA",
+    youtubeVideoId: "bUHFg8CZFCA",
+    difficulty: "Advanced",
+    estimatedHours: "4 hrs video",
+    description: "Visual architectural breakdown of load balancing, horizontal scaling, caching strategies (Redis), CDN distribution, and database sharding.",
+    keyTopics: ["System Design", "Scalability", "Microservices", "Interview", "YouTube"],
+    isVerified: true,
+    upvotes: 10400,
+  },
+  {
+    id: "res-yt-cs50",
+    title: "Harvard CS50: Full Computer Science University Lecture Series",
+    category: "youtube",
+    sourceName: "YouTube (Harvard CS50 / David Malan)",
+    url: "https://www.youtube.com/watch?v=8mAITcNt710",
+    youtubeVideoId: "8mAITcNt710",
+    difficulty: "Beginner",
+    estimatedHours: "24 hrs video",
+    description: "Full recorded Harvard lectures covering computational thinking, memory allocation in C, data structures, algorithms, and web programming.",
+    keyTopics: ["Computer Science", "Algorithms", "C", "Data Structures", "YouTube"],
+    isVerified: true,
+    upvotes: 14800,
+  },
+  {
+    id: "res-yt-dsa-java",
+    title: "Data Structures & Algorithms in Java Full Course",
+    category: "youtube",
+    sourceName: "YouTube (Kunal Kushwaha)",
+    url: "https://www.youtube.com/watch?v=rZ41y93P2Qo",
+    youtubeVideoId: "rZ41y93P2Qo",
+    difficulty: "Beginner",
+    estimatedHours: "30 hrs video",
+    description: "Comprehensive step-by-step series covering time & space complexity, recursion, binary search, trees, graphs, and dynamic programming.",
+    keyTopics: ["Java", "DSA", "Algorithms", "LeetCode", "YouTube"],
+    isVerified: true,
+    upvotes: 9920,
+  },
+  {
+    id: "res-yt-statquest",
+    title: "StatQuest: Machine Learning & Neural Networks Visual Explanations",
+    category: "youtube",
+    sourceName: "YouTube (Josh Starmer / StatQuest)",
+    url: "https://www.youtube.com/watch?v=Cva_Bskk07A",
+    youtubeVideoId: "Cva_Bskk07A",
+    difficulty: "Intermediate",
+    estimatedHours: "8 hrs video",
+    description: "Clear, math-grounded intuitive explanations of linear regression, gradient descent, support vector machines, and backpropagation.",
+    keyTopics: ["Machine Learning", "Mathematics", "Statistics", "AI", "YouTube"],
+    isVerified: true,
+    upvotes: 8120,
+  },
+  {
+    id: "res-yt-fastapi",
+    title: "Python FastAPI Full Course: Build Real-World Production APIs",
+    category: "youtube",
+    sourceName: "YouTube (freeCodeCamp / Sanjeev Thiyagarajan)",
+    url: "https://www.youtube.com/watch?v=0sOvCWFmrtA",
+    youtubeVideoId: "0sOvCWFmrtA",
+    difficulty: "Intermediate",
+    estimatedHours: "19 hrs video",
+    description: "Build robust async REST APIs with FastAPI, PostgreSQL, SQLAlchemy ORM, JWT authentication, Alembic migrations, and Docker deployment.",
+    keyTopics: ["FastAPI", "Python", "REST APIs", "Backend", "YouTube"],
+    isVerified: true,
+    upvotes: 7530,
+  },
+
   // ── Official Documentation ──
   {
     id: "res-nextjs",
@@ -45,7 +160,7 @@ const VERIFIED_KNOWLEDGE_BASE: VerifiedResource[] = [
     upvotes: 6240,
   },
   {
-    id: "res-fastapi",
+    id: "res-fastapi-docs",
     title: "FastAPI Production Guide & Async Python API Architecture",
     category: "docs",
     sourceName: "FastAPI Tiangolo",
@@ -58,7 +173,7 @@ const VERIFIED_KNOWLEDGE_BASE: VerifiedResource[] = [
     upvotes: 3910,
   },
   {
-    id: "res-docker",
+    id: "res-docker-docs",
     title: "Docker & Containerization Hands-On Curriculum",
     category: "docs",
     sourceName: "Docker Documentation",
@@ -84,7 +199,7 @@ const VERIFIED_KNOWLEDGE_BASE: VerifiedResource[] = [
     upvotes: 8430,
   },
 
-  // ── Top Free Courses & Video Programs ──
+  // ── Top Free Courses & Programs ──
   {
     id: "res-cs50",
     title: "CS50: Introduction to Computer Science (Harvard University)",
@@ -260,4 +375,3 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   }
 }
-
